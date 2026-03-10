@@ -62,6 +62,12 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
+        if (!auth()->check()) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        $category->delete();
         
+        return response()->json(['message' => 'Category deleted successfully']);
     }
 }
