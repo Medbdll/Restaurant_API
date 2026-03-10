@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -41,12 +42,22 @@ class CategoryController extends Controller
 
     public function edit(Category $category)
     {
-       
+        return response()->json($category);
     }
 
     public function update(Request $request, Category $category)
     {
+        if (!auth()->check()) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
         
+        $category->update($validated);
+        
+        return response()->json($category);
     }
 
     public function destroy(Category $category)
