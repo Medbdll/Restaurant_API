@@ -34,6 +34,9 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
+        $category->load('plats');
+        
+        return response()->json($category);
     }
 
     public function edit(Category $category)
