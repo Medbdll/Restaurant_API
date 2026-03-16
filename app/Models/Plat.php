@@ -4,16 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class Plat extends Model
 {
     protected $fillable = [
         'name',
+        'description',
+        'price',
         'user_id'
     ];
     
-    public function plats()
+    public function categories()
     {
-        return $this->belongsToMany(Plat::class, 'categorie_plat');
+        return $this->belongsToMany(Category::class, 'categorie_plat');
     }
     
     public function user()
