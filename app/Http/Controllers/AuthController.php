@@ -15,13 +15,15 @@ public function register(Request $request)
     $request->validate([
         'name'=>'required',
         'email'=>'required|email|unique:users',
-        'password'=>'required|min:6'
+        'password'=>'required|min:6',
+        'dietary_tags'=>'sometimes|array'
     ]);
 
     $user = User::create([
         'name'=>$request->name,
         'email'=>$request->email,
-        'password'=>Hash::make($request->password)
+        'password'=>Hash::make($request->password),
+        'dietary_tags'=>$request->dietary_tags ?? []
     ]);
 
     $token = $user->createToken('api-token')->plainTextToken;
@@ -49,6 +51,19 @@ public function logout(Request $request)
 public function user(Request $request)
 {
     return $request->user();
+}
+
+public function updateDietaryTags(Request $request)
+{
+    $request->validate([
+        'dietary_tags' => 'required|array'
+    ]);
+
+    $user = $request->user();
+    $user->dietary_tags = $request->dietary_tags;
+    $user->save();
+
+    return response()->json(['message' => 'Dietary tags updated successfully', 'dietary_tags' => $user->dietary_tags]);
 }
 
 }

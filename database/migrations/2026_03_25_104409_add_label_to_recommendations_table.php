@@ -11,15 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-       Schema::create('plats', function (Blueprint $table) {
-    $table->id();
-    $table->string('name');
-    $table->string('image')->nullable();
-    $table->text('description');
-    $table->decimal('price',8,2);
-    $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-    $table->timestamps();
-});
+        Schema::table('recommendations', function (Blueprint $table) {
+            $table->string('label')->nullable()->after('warning_message');
+        });
     }
 
     /**
@@ -27,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('plats');
+        Schema::table('recommendations', function (Blueprint $table) {
+            $table->dropColumn('label');
+        });
     }
 };

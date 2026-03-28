@@ -18,6 +18,11 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
+        $user = User::find(auth()->id());
+        if ($user->role !== 'admin') {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+        
         $validated = $request->validate([
             'name' => 'required|string|max:255',
         ]);
@@ -39,6 +44,11 @@ class CategoryController extends Controller
 
     public function update(Request $request, Category $category)
     {
+        $user = User::find(auth()->id());
+        if ($user->role !== 'admin') {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+        
         if ($category->user_id !== auth()->id()) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
@@ -54,6 +64,11 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
+        $user = User::find(auth()->id());
+        if ($user->role !== 'admin') {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+        
         if ($category->user_id !== auth()->id()) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
@@ -65,6 +80,11 @@ class CategoryController extends Controller
 
     public function addPlats(Request $request, Category $category)
     {
+        $user = User::find(auth()->id());
+        if ($user->role !== 'admin') {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+        
         if ($category->user_id !== auth()->id()) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }

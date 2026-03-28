@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'dietary_tags'
     ];
 
     /**
@@ -44,6 +45,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'dietary_tags' => 'array',
         ];
     }
     public function plats()
@@ -54,5 +56,15 @@ class User extends Authenticatable
     public function categories()
     {
         return $this->hasMany(Category::class);
+    }
+    
+    public function ingredients()
+    {
+        return $this->hasMany(Ingredient::class);
+    }
+    
+    public function recommendations()
+    {
+        return $this->hasMany(Recommendation::class);
     }
 }
