@@ -14,6 +14,7 @@ return new class extends Migration
        Schema::create('plats', function (Blueprint $table) {
     $table->id();
     $table->string('name');
+    $table->string('image')->nullable();
     $table->text('description');
     $table->decimal('price',8,2);
     $table->foreignId('user_id')->constrained()->cascadeOnDelete();
